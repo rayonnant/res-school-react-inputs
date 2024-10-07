@@ -1,10 +1,14 @@
 import React from 'react'
+import {SignIn} from './components/SignIn'
+import {SignUp} from './components/SignUp'
 
 function App() {
-  return (
-    <div className="App">
-    </div>
-  )
+    return (
+        <div className="App">
+            <SignIn/>
+            <SignUp/>
+        </div>
+    )
 }
 
 export default App
