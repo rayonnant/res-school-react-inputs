@@ -1,6 +1,5 @@
 import React, {ReactElement} from 'react'
 
-
 interface MainTemplateProps {
     type: string
     description?: string
@@ -10,6 +9,7 @@ interface MainTemplateProps {
     size?: 'small' | 'medium' | 'large'
     disabled?: boolean
     withAsterisk?: boolean
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 interface RadioInputs extends MainTemplateProps {
@@ -49,16 +49,17 @@ export const CustomInput = ({
                                 disabled = false,
                                 withAsterisk = true,
                                 icon,
-                                radioInputs
-                            }: Props) => {
+                                radioInputs,
+                                onChange
+                            }: Props): React.JSX.Element => {
 
-    const colorVariants = {
+    const colorVariants: { [key: string]: string } = {
         'default': 'lightgrey',
         'success': 'green',
         'warning': 'red'
     }
 
-    const widthSizes = {
+    const widthSizes: { [key: string]: string } = {
         'small': '40%',
         'medium': '70%',
         'large': '95%'
@@ -79,6 +80,7 @@ export const CustomInput = ({
                                 disabled={disabled}
                                 required={withAsterisk}
                                 placeholder={placeholder}
+                                onChange={onChange}
                                 style={{
                                     borderColor: colorVariants[variant],
                                     borderRadius: radius,
@@ -99,7 +101,9 @@ export const CustomInput = ({
                         <fieldset style={{
                             width: widthSizes[size]
                         }}>
-                            <legend>{radioInputs.legend} {withAsterisk && <sup style={{color: 'darkred'}}>*</sup>}</legend>
+                            <legend>{radioInputs.legend} {withAsterisk &&
+															<sup style={{color: 'darkred'}}>*</sup>}
+                            </legend>
                             <div className="radio-group">
                                 {
                                     radioInputs.children.map((item: {
@@ -107,7 +111,13 @@ export const CustomInput = ({
                                         value: string | number
                                     }, idx: number) => (
                                         <label className="radio-label" key={idx}>
-                                            <input type="radio" name={radioInputs.name} value={item.value} required={idx === 0}/>
+                                            <input
+                                                type="radio"
+                                                name={radioInputs.name}
+                                                value={item.value}
+                                                required={idx === 0}
+                                                onChange={onChange}
+                                            />
                                             <span>{item.span}</span>
                                         </label>
                                     ))

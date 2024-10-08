@@ -1,11 +1,35 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {CustomInput} from './CustomInput'
 import {IconAt, IconPassword, IconUser} from '@tabler/icons-react'
 
+type SubmitProps = {
+    name: string
+    nickname: string
+    email: string
+    gender: string
+    password: string
+    repeatPassword: string
+}
 
-export const SignUp: React.FC = () => {
+type Props = {
+    onSubmit: ({ name, nickname, email, gender, password, repeatPassword }: SubmitProps) => void
+}
+
+export const SignUp: React.FC<Props> = ({onSubmit}): React.JSX.Element => {
+    const [name, setName] = useState<string>('')
+    const [nickname, setNickname] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const [repeatPassword, setRepeatPassword] = useState<string>('')
+    const [gender, setGender] = useState<string>('')
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+        e.preventDefault()
+        onSubmit({ name, nickname, email, gender, password, repeatPassword })
+    }
+
     return (
-        <form action="" className="form">
+        <form onSubmit={handleSubmit} className="form">
             <h2>Регистрация</h2>
             <CustomInput
                 type='text'
@@ -15,6 +39,7 @@ export const SignUp: React.FC = () => {
                 disabled={true}
                 placeholder='Введите имя'
                 icon={<IconUser size="0.7em"/>}
+                onChange={(e) => setName(e.target.value)}
             />
 
             <CustomInput
@@ -23,6 +48,7 @@ export const SignUp: React.FC = () => {
                 placeholder='Введите ник'
                 withAsterisk={false}
                 icon={<IconUser size="0.7em"/>}
+                onChange={(e) => setNickname(e.target.value)}
             />
 
             <CustomInput
@@ -30,6 +56,7 @@ export const SignUp: React.FC = () => {
                 label='Email'
                 placeholder='Введите email'
                 icon={<IconAt size="0.7em"/>}
+                onChange={(e) => setEmail(e.target.value)}
             />
 
 
@@ -38,13 +65,14 @@ export const SignUp: React.FC = () => {
                 withAsterisk={true}
                 radioInputs={{
                     legend: 'Ваш пол',
-                    name: 'sex',
+                    name: 'gender',
                     children: [
                         {span: 'Женский', value: 'female'},
                         {span: 'Мужской', value: 'male'},
                         {span: 'Другой', value: 'other'}
                     ]
                 }}
+                onChange={(e) => setGender(e.target.value)}
             />
 
             <CustomInput
@@ -52,6 +80,7 @@ export const SignUp: React.FC = () => {
                 label='Пароль'
                 placeholder='Введите пароль'
                 icon={<IconPassword size="0.7em"/>}
+                onChange={(e) => setPassword(e.target.value)}
             />
 
             <CustomInput
@@ -59,6 +88,7 @@ export const SignUp: React.FC = () => {
                 label='Подтверждение пароля'
                 placeholder='Повторите пароль'
                 icon={<IconPassword size="0.7em"/>}
+                onChange={(e) => setRepeatPassword(e.target.value)}
             />
 
             <button type="submit">Войти</button>
