@@ -36,7 +36,7 @@ export const SignUp: React.FC<Props> = ({onSubmit}): React.JSX.Element => {
                 label='Имя'
                 withAsterisk={false}
                 description="Disabled"
-                disabled={true}
+                disabled
                 placeholder='Введите имя'
                 icon={<IconUser size="0.7em"/>}
                 onChange={(e) => setName(e.target.value)}
@@ -59,10 +59,8 @@ export const SignUp: React.FC<Props> = ({onSubmit}): React.JSX.Element => {
                 onChange={(e) => setEmail(e.target.value)}
             />
 
-
             <CustomInput
                 type='radio'
-                withAsterisk={true}
                 radioInputs={{
                     legend: 'Ваш пол',
                     name: 'gender',

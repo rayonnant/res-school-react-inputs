@@ -4,8 +4,6 @@ interface MainTemplateProps {
     type: string
     description?: string
     error?: string
-    variant?: 'default' | 'success' | 'warning'
-    radius?: '0' | '5px' | '10px' | '15px' | '20px'
     size?: 'small' | 'medium' | 'large'
     disabled?: boolean
     withAsterisk?: boolean
@@ -25,12 +23,16 @@ interface RadioInputs extends MainTemplateProps {
     label?: never
     placeholder?: never
     icon?: never
+    variant?: never
+    radius?: never
 }
 
 interface BasicInputs extends MainTemplateProps {
     type: 'text' | 'password' | 'email'
     label: string
     placeholder: string
+    variant?: 'default' | 'success' | 'warning'
+    radius?: '0' | '5px' | '10px' | '15px' | '20px'
     radioInputs?: never
     icon?: ReactElement<any, any>
 }
@@ -67,7 +69,7 @@ export const CustomInput = ({
 
     return (
         <div className="form-group">
-            {['text', 'password', 'email'].includes(type) ?
+            {['text', 'password', 'email'].includes(type.trim().toLowerCase()) ?
                 <>
                     <label style={{
                         width: widthSizes[size],
@@ -102,8 +104,7 @@ export const CustomInput = ({
                             width: widthSizes[size]
                         }}>
                             <legend>{radioInputs.legend} {withAsterisk &&
-															<sup style={{color: 'darkred'}}>*</sup>}
-                            </legend>
+															<sup style={{color: 'darkred'}}>*</sup>}</legend>
                             <div className="radio-group">
                                 {
                                     radioInputs.children.map((item: {
@@ -116,6 +117,7 @@ export const CustomInput = ({
                                                 name={radioInputs.name}
                                                 value={item.value}
                                                 required={idx === 0}
+                                                disabled={disabled}
                                                 onChange={onChange}
                                             />
                                             <span>{item.span}</span>
